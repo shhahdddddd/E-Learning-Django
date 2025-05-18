@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '13(j)-9(5#pg3=dj!5)6=_qsrg^a=aix3^3^u^z1yity=)v#6+')  # fallback for dev
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'  # Default True for dev
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http://127.0.0.1').split(',')
 
