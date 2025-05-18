@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Ajouter un Cours à {{ formation.titre }}</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label class="form-label">Titre du Cours</label>
+            {{ form.titre }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Fichier TD</label>
+            {{ form.td_file }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Fichier TP</label>
+            {{ form.tp_file }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Correction</label>
+            {{ form.correction }}
+        </div>
+        
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'enseignants:edit_formation' pk=formation.pk %}" class="btn btn-secondary me-md-2">Annuler</a>
+            <button type="submit" class="btn btn-primary">Créer</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .login-container {
+        max-width: 400px;  /* Reduced from 500px */
+        margin: 3rem auto;
+        padding: 0 15px;
+    }
+    
+    .login-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .login-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        color: white;
+        padding: 1.5rem;  /* Slightly reduced padding */
+        text-align: center;
+        border-bottom: none;
+    }
+    
+    .card-header h3 {
+        font-weight: 700;
+        margin: 0;
+        font-size: 1.5rem;  /* Slightly smaller font */
+        letter-spacing: 0.5px;
+    }
+    
+    .card-body {
+        padding: 1.8rem;  /* Reduced padding */
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;  /* Slightly reduced margin */
+    }
+    
+    .form-group label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        display: block;
+        font-size: 0.95rem;  /* Slightly smaller label */
+    }
+    
+    .form-control {
+        padding: 10px 12px;  /* Slightly reduced padding */
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        transition: all 0.3s ease;
+        width: 100%;
+        font-size: 0.95rem;  /* Slightly smaller font */
+    }
+    
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+    }
+    
+    .btn-login {
+        background-color: #3498db;
+        border: none;
+        padding: 10px;  /* Slightly reduced padding */
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        width: 100%;
+        font-size: 0.95rem;  /* Slightly smaller font */
+        letter-spacing: 0.5px;
+    }
+    
+    .btn-login:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+    }
+    
+    .links-container {
+        margin-top: 1.2rem;  /* Slightly reduced margin */
+        text-align: center;
+        font-size: 0.95rem;  /* Slightly smaller font */
+    }
+    
+    .links-container a {
+        color: #3498db;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        display: inline-block;
+        margin: 0.3rem 0;
+        font-size: 0.95rem;  /* Slightly smaller font */
+    }
+    
+    .links-container a:hover {
+        color: #2980b9;
+        text-decoration: underline;
+    }
+    
+    /* Error messages */
+    .errorlist {
+        list-style: none;
+        padding: 0;
+        color: #e74c3c;
+        margin-top: 0.5rem;
+        font-size: 0.85rem;  /* Slightly smaller font */
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .login-container {
+            margin: 2rem auto;
+            max-width: 350px;  /* Adjusted for mobile */
+        }
+        
+        .card-header {
+            padding: 1.2rem;
+        }
+        
+        .card-header h3 {
+            font-size: 1.3rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .login-container {
+            max-width: 320px;  /* Narrower on very small screens */
+        }
+        
+        .card-body {
+            padding: 1.2rem;
+        }
+    }
+</style>
+
+<div class="login-container">
+    <div class="card login-card">
+        <div class="card-header">
+            <h3>Login to Your Account</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                    <div class="alert alert-danger mb-3" role="alert">  <!-- Reduced margin -->
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        Please enter a correct username and password.
+                    </div>
+                {% endif %}
+                
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">
+                        <i class="fas fa-user me-2"></i>Username
+                    </label>
+                    <input type="text" 
+                           name="{{ form.username.name }}" 
+                           id="{{ form.username.id_for_label }}" 
+                           class="form-control" 
+                           required
+                           placeholder="Enter your username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.password.id_for_label }}">
+                        <i class="fas fa-lock me-2"></i>Password
+                    </label>
+                    <input type="password" 
+                           name="{{ form.password.name }}" 
+                           id="{{ form.password.id_for_label }}" 
+                           class="form-control" 
+                           required
+                           placeholder="Enter your password">
+                </div>
+                
+                <div class="form-group form-check mb-3">  <!-- Reduced margin -->
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                
+                <button type="submit" class="btn btn-login">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                </button>
+                
+                <div class="links-container mt-3">  <!-- Reduced margin -->
+                    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+                    <p><a href="{% url 'direct_password_reset' %}">Forgot password? Reset here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

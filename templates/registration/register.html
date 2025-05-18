@@ -1,0 +1,625 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+/* E-learning themed registration form with compact layout */
+body {
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  background-color: #f8f9fa;
+}
+
+.registration-container {
+  max-width: 420px;
+  margin: 1.5rem auto;
+  padding: 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  background-color: #fff;
+  overflow: hidden;
+  opacity: 0; /* Initially hidden for GSAP fade-in */
+}
+
+.card-header {
+  background: linear-gradient(45deg, #1e88e5, #0d47a1);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  position: relative;
+  opacity: 0; /* Initially hidden for staggered reveal */
+  transform: translateY(10px); /* Initial position for animation */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group label i {
+  margin-right: 0.5rem;
+  color: #1976d2;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #1976d2;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+}
+
+select.form-control {
+  padding-right: 2rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -8px;
+  margin-left: -8px;
+}
+
+.form-col {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  border-radius: 6px;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(45deg, #2196f3, #1565c0);
+  border: none;
+  box-shadow: 0 2px 5px rgba(33, 150, 243, 0.3);
+  width: 100%;
+  font-weight: 600;
+  padding: 0.65rem;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(45deg, #1e88e5, #0d47a1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(33, 150, 243, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.alert-danger {
+  position: relative;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  font-size: 0.9rem;
+}
+
+.password-strength {
+  height: 3px;
+  background-color: #e9ecef;
+  border-radius: 1.5px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.password-strength-bar {
+  height: 100%;
+  border-radius: 1.5px;
+  transition: width 0.3s ease;
+  background-color: #dc3545;
+}
+
+.password-strength-bar.weak {
+  background-color: #dc3545;
+  width: 25%;
+}
+
+.password-strength-bar.medium {
+  background-color: #ffc107;
+  width: 50%;
+}
+
+.password-strength-bar.strong {
+  background-color: #28a745;
+  width: 100%;
+}
+
+.form-text {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.text-center {
+  text-align: center;
+  opacity: 0; /* Initially hidden for GSAP animation */
+}
+
+.text-center a {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.text-center a:hover {
+  text-decoration: underline;
+}
+
+.file-upload {
+  border: 1px dashed #ced4da;
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-upload:hover {
+  border-color: #1976d2;
+  background-color: rgba(33, 150, 243, 0.05);
+}
+
+.file-upload-input {
+  display: none;
+}
+
+.file-upload-label {
+  display: block;
+  cursor: pointer;
+  margin: 0;
+}
+
+.file-upload-icon {
+  display: block;
+  font-size: 1.5rem;
+  color: #1976d2;
+  margin-bottom: 0.3rem;
+}
+
+.file-upload-text {
+  color: #6c757d;
+  font-size: 0.85rem;
+}
+
+.file-name {
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  color: #212529;
+  font-weight: 500;
+  display: none;
+}
+
+.file-name.active {
+  display: block;
+}
+
+/* Fix for broken styles in your current implementation */
+#id_first_name, #id_last_name, #id_email, #id_role, #id_password1, #id_password2 {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .registration-container {
+    margin: 1rem;
+    max-width: none;
+  }
+  
+  .card-body {
+    padding: 1.25rem 1rem;
+  }
+  
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .form-col {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+</style>
+
+<div class="registration-container">
+  <div class="card-header">
+    <h3>Créer un compte</h3>
+  </div>
+  <div class="card-body">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      {% if form.errors %}
+      <div class="alert alert-danger">
+        <strong><i class="fas fa-exclamation-circle"></i> Erreur(s):</strong>
+        {% for field, errors in form.errors.items %}
+          {% for error in errors %}
+            <div>{{ error }}</div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+      {% endif %}
+      
+      <div class="form-row">
+        <div class="form-col">
+          <div class="form-group">
+            <label for="{{ form.first_name.id_for_label }}">
+              <i class="fas fa-id-card"></i>Prénom
+            </label>
+            {{ form.first_name }}
+          </div>
+        </div>
+        <div class="form-col">
+          <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">
+              <i class="fas fa-id-card"></i>Nom
+            </label>
+            {{ form.last_name }}
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="{{ form.email.id_for_label }}">
+          <i class="fas fa-envelope"></i>Email
+        </label>
+        {{ form.email }}
+      </div>
+      
+      <div class="form-group">
+        <label for="{{ form.role.id_for_label }}">
+          <i class="fas fa-user-tag"></i>Rôle
+        </label>
+        {{ form.role }}
+        {% if form.role.errors %}
+          <div class="text-danger">{{ form.role.errors }}</div>
+        {% endif %}
+      </div>
+      
+      <div class="form-group" id="cv-field" style="display: none;">
+        <label for="{{ form.cv.id_for_label }}">
+          <i class="fas fa-file-alt"></i>CV (PDF)
+        </label>
+        <div class="file-upload">
+          <label class="file-upload-label">
+            <div class="file-upload-icon">
+              <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <div class="file-upload-text">
+              Déposez votre CV ici ou <span style="color: #1976d2;">parcourez</span>
+            </div>
+            <div class="file-name" id="file-name"></div>
+            {{ form.cv }}
+          </label>
+        </div>
+        {% if form.cv.errors %}
+          <div class="text-danger">{{ form.cv.errors }}</div>
+        {% endif %}
+      </div>
+      
+      <div class="form-group">
+        <label for="{{ form.password1.id_for_label }}">
+          <i class="fas fa-lock"></i>Mot de passe
+        </label>
+        {{ form.password1 }}
+        <div class="password-strength">
+          <div class="password-strength-bar" id="password-strength-bar"></div>
+        </div>
+        <div class="form-text">8 caractères min, pas uniquement numérique</div>
+      </div>
+      
+      <div class="form-group">
+        <label for="{{ form.password2.id_for_label }}">
+          <i class="fas fa-lock"></i>Confirmation
+        </label>
+        {{ form.password2 }}
+      </div>
+      
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-user-plus"></i> S'inscrire
+        </button>
+      </div>
+      
+      <div class="text-center">
+        <p style="margin-bottom: 0; font-size: 0.9rem;">Déjà un compte ? <a href="{% url 'login' %}">Connectez-vous</a></p>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add GSAP CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Role selection handling
+  const roleSelect = document.getElementById('id_role');
+  const cvField = document.getElementById('cv-field');
+  
+  roleSelect.addEventListener('change', function() {
+    if (roleSelect.value === 'enseignant') {
+      cvField.style.display = 'block';
+      gsap.fromTo(cvField, 
+        { opacity: 0, height: 0 }, 
+        { opacity: 1, height: 'auto', duration: 0.4, ease: 'power1.out' }
+      );
+    } else {
+      gsap.to(cvField, {
+        opacity: 0,
+        height: 0,
+        duration: 0.3,
+        ease: 'power1.in',
+        onComplete: () => { cvField.style.display = 'none'; }
+      });
+    }
+  });
+  
+  // Check initial role selection
+  if (roleSelect.value === 'enseignant') {
+    cvField.style.display = 'block';
+  }
+  
+  // Password strength meter
+  const passwordInput = document.getElementById('id_password1');
+  const strengthBar = document.getElementById('password-strength-bar');
+  
+  passwordInput.addEventListener('input', function() {
+    const password = this.value;
+    let strength = 0;
+    
+    // Length check
+    if (password.length >= 8) {
+      strength += 1;
+    }
+    
+    // Character variety check
+    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) {
+      strength += 1;
+    }
+    
+    // Number check
+    if (password.match(/[0-9]/)) {
+      strength += 1;
+    }
+    
+    // Special character check
+    if (password.match(/[^a-zA-Z0-9]/)) {
+      strength += 1;
+    }
+    
+    // Update strength bar
+    strengthBar.className = 'password-strength-bar';
+    if (password.length === 0) {
+      gsap.to(strengthBar, { width: '0%', duration: 0.3 });
+    } else if (strength <= 1) {
+      strengthBar.classList.add('weak');
+      gsap.to(strengthBar, { width: '25%', duration: 0.3 });
+    } else if (strength <= 2) {
+      strengthBar.classList.add('medium');
+      gsap.to(strengthBar, { width: '50%', duration: 0.3 });
+    } else {
+      strengthBar.classList.add('strong');
+      gsap.to(strengthBar, { width: '100%', duration: 0.3 });
+    }
+  });
+  
+  // File upload handling
+  const fileInput = document.getElementById('id_cv');
+  const fileName = document.getElementById('file-name');
+  const fileUpload = document.querySelector('.file-upload');
+  
+  fileInput.addEventListener('change', function() {
+    if (this.files && this.files.length > 0) {
+      fileName.textContent = this.files[0].name;
+      fileName.classList.add('active');
+      gsap.to(fileUpload, { 
+        borderColor: '#28a745', 
+        backgroundColor: 'rgba(40, 167, 69, 0.05)',
+        duration: 0.3
+      });
+      gsap.fromTo(fileName, 
+        { opacity: 0, y: -10 }, 
+        { opacity: 1, y: 0, duration: 0.4 }
+      );
+    } else {
+      gsap.to(fileName, { 
+        opacity: 0, 
+        y: -10,
+        duration: 0.2,
+        onComplete: () => {
+          fileName.textContent = '';
+          fileName.classList.remove('active');
+        }
+      });
+      gsap.to(fileUpload, { 
+        borderColor: '#ced4da', 
+        backgroundColor: 'transparent',
+        duration: 0.3
+      });
+    }
+  });
+  
+  // Drag and drop handling
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
+    fileUpload.addEventListener(event, preventDefaults, false);
+  });
+  
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  
+  ['dragenter', 'dragover'].forEach(event => {
+    fileUpload.addEventListener(event, highlight, false);
+  });
+  
+  ['dragleave', 'drop'].forEach(event => {
+    fileUpload.addEventListener(event, unhighlight, false);
+  });
+  
+  function highlight() {
+    gsap.to(fileUpload, { 
+      borderColor: '#1976d2', 
+      backgroundColor: 'rgba(33, 150, 243, 0.05)',
+      scale: 1.02,
+      duration: 0.2
+    });
+  }
+  
+  function unhighlight() {
+    gsap.to(fileUpload, { 
+      borderColor: '#ced4da', 
+      backgroundColor: 'transparent',
+      scale: 1,
+      duration: 0.2
+    });
+  }
+  
+  fileUpload.addEventListener('drop', handleDrop, false);
+  
+  function handleDrop(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    
+    fileInput.files = files;
+    
+    if (files.length > 0) {
+      fileName.textContent = files[0].name;
+      fileName.classList.add('active');
+      gsap.to(fileUpload, { 
+        borderColor: '#28a745', 
+        backgroundColor: 'rgba(40, 167, 69, 0.05)',
+        duration: 0.3
+      });
+      gsap.fromTo(fileName, 
+        { opacity: 0, y: -10 }, 
+        { opacity: 1, y: 0, duration: 0.4 }
+      );
+    }
+  }
+  
+  // GSAP Animations on page load
+  
+  // 1. Animate container entering
+  gsap.fromTo('.registration-container', 
+    { opacity: 0, y: 30 }, 
+    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+  );
+  
+  // 2. Animate form elements with stagger
+  gsap.fromTo('.form-group', 
+    { opacity: 0, y: 10 }, 
+    { opacity: 1, y: 0, duration: 0.4, stagger: 0.1, delay: 0.4, ease: 'power1.out' }
+  );
+  
+  // 3. Animate bottom text link
+  gsap.fromTo('.text-center', 
+    { opacity: 0 }, 
+    { opacity: 1, duration: 0.4, delay: 1.2, ease: 'power1.out' }
+  );
+  
+  // 4. Add hover animation for button
+  const submitButton = document.querySelector('.btn-primary');
+  
+  submitButton.addEventListener('mouseenter', () => {
+    gsap.to(submitButton, { 
+      scale: 1.03, 
+      duration: 0.3,
+      boxShadow: '0 4px 8px rgba(33, 150, 243, 0.4)'
+    });
+  });
+  
+  submitButton.addEventListener('mouseleave', () => {
+    gsap.to(submitButton, { 
+      scale: 1, 
+      duration: 0.3,
+      boxShadow: '0 2px 5px rgba(33, 150, 243, 0.3)'
+    });
+  });
+  
+  // 5. Add subtle pulse to icons
+  const icons = document.querySelectorAll('.form-group label i');
+  icons.forEach(icon => {
+    gsap.to(icon, {
+      scale: 1.2,
+      duration: 0.4,
+      repeat: 1,
+      yoyo: true,
+      ease: 'power1.inOut',
+      delay: 1.5 + Math.random() * 0.5
+    });
+  });
+});
+</script>
+{% endblock %}

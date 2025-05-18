@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<style>
+    .publication-container {
+        max-width: 700px;
+        margin: 2rem auto;
+        padding: 1.75rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    }
+    
+    .publication-header {
+        text-align: center;
+        margin-bottom: 1.75rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .publication-header h2 {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .publication-header p {
+        color: #7f8c8d;
+        margin-bottom: 0;
+    }
+    
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+    
+    .form-group label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    
+    .form-control, .form-control-file {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    .form-control:focus, .form-control-file:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+    
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
+    
+    .btn-submit {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        margin-right: 1rem;
+    }
+    
+    .btn-submit:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(41, 128, 185, 0.3);
+    }
+    
+    .btn-cancel {
+        background-color: #95a5a6;
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .btn-cancel:hover {
+        background-color: #7f8c8d;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(127, 140, 141, 0.3);
+    }
+    
+    .form-actions {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+        gap: 0.75rem;
+    }
+    
+    /* Style for form errors */
+    .errorlist {
+        color: #e74c3c;
+        margin: 0.5rem 0 0 0;
+        padding: 0;
+        list-style: none;
+        font-size: 0.9em;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="publication-container">
+        <div class="publication-header">
+            <h2>Créer une Nouvelle Formation</h2>
+            <p>Remplissez les détails de votre formation pour la partager avec vos étudiants</p>
+        </div>
+        
+        <form method="post" enctype="multipart/form-data" action="{% url 'enseignants:publier' %}">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                    {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                </label>
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                    <div class="errorlist">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save me-2"></i>Créer la formation
+                </button>
+                <a href="{% url 'enseignants:formations' %}" class="btn-cancel">
+                    <i class="fas fa-times me-2"></i>Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

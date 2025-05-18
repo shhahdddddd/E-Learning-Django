@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    /* Profile Header */
+    .profile-header {
+        position: relative;
+        height: 250px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 8px 8px 0 0;
+        overflow: hidden;
+        margin-bottom: 80px;
+    }
+
+    .profile-picture {
+        position: absolute;
+        bottom: -60px;
+        left: 30px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 4px solid var(--light-color);
+        background-color: #fff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        object-fit: contain;
+        transition: all 0.3s ease;
+        background-color: white;
+        padding: 5px;
+    }
+
+    .profile-picture:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-name {
+        position: absolute;
+        bottom: 10px;
+        left: 170px;
+        color: var(--light-color);
+        font-size: 1.8rem;
+        font-weight: 600;
+    }
+
+    .profile-role {
+        position: absolute;
+        bottom: -10px;
+        left: 170px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+    }
+
+    /* Profile Content */
+    .profile-section {
+        margin-bottom: 30px;
+    }
+
+    .profile-section .card {
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .profile-section .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .profile-section h5 {
+        color: var(--secondary-color);
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .profile-section h5::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 40px;
+        height: 2px;
+        background-color: var(--primary-color);
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 0.75rem 0;
+        color: #555;
+    }
+
+    .progress {
+        height: 8px;
+        border-radius: 4px;
+        background-color: #e9ecef;
+    }
+
+    .progress-bar {
+        background-color: var(--primary-color);
+    }
+
+    .btn-edit-profile {
+        background-color: var(--primary-color);
+        border: none;
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-edit-profile:hover {
+        background-color: var(--secondary-color);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 767.98px) {
+        .profile-header {
+            height: 200px;
+            margin-bottom: 100px;
+        }
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+            bottom: -50px;
+            left: 20px;
+        }
+
+        .profile-name {
+            font-size: 1.4rem;
+            left: 140px;
+            bottom: 5px;
+        }
+
+        .profile-role {
+            left: 140px;
+            bottom: -15px;
+        }
+    }
+</style>
+
+<div class="container mt-5">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        {% load static %}
+        <img src="{% get_media_prefix %}admin-2.jpg" alt="Profile Picture" class="profile-picture">
+        <h2 class="profile-name">
+            {% if user.first_name %}
+                {{ user.first_name }} {{ user.last_name }}
+            {% else %}
+                {{ user.email }}
+            {% endif %}
+        </h2>
+        <p class="profile-role">
+            {% if user.is_staff %}
+                Admin
+            {% elif user.is_teacher %}
+                Enseignant
+            {% else %}
+                Étudiant
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="row">
+        <!-- Personal Details -->
+        <div class="col-md-4 profile-section">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Détails personnels</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Email :</strong> {{ user.email }}</li>
+                        <li class="list-group-item"><strong>Inscrit depuis :</strong> {{ user.date_joined|date:"F d, Y" }}</li>
+                        <li class="list-group-item"><strong>Rôle :</strong> 
+                            {% if user.is_staff %}Admin{% elif user.is_teacher %}Enseignant{% else %}Étudiant{% endif %}
+                        </li>
+                    </ul>
+                    <button class="btn btn-edit-profile mt-3">Modifier le profil</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enrolled Courses -->
+        <div class="col-md-8 profile-section">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Cours inscrits</h5>
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Example course -->
+                            <div class="card course-card mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Introduction à la Programmation</h6>
+                                    <p class="card-text">Progrès : 75%</p>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Add more courses dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // GSAP Animations for Profile Page
+    gsap.from(".profile-header", { opacity: 0, y: -50, duration: 1, ease: "power2.out" });
+    gsap.from(".profile-section .card", { opacity: 0, y: 30, duration: 0.8, stagger: 0.2, ease: "power1.out", delay: 0.5 });
+</script>
+{% endblock %}

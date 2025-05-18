@@ -1,0 +1,134 @@
+{% block content %}
+<style>
+    /* Course Edit Page Styles */
+
+    /* Main container styling */
+    .container {
+        max-width: 900px;
+        padding: 2rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Page title */
+    h2.mb-4 {
+        color: #2c3e50;
+        font-weight: 600;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Form styling */
+    form {
+        margin-top: 1.5rem;
+    }
+    
+    /* Form groups containing fields */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Form labels */
+    form label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: #34495e;
+    }
+    
+    /* Form inputs */
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="number"],
+    form input[type="url"],
+    form input[type="file"],
+    form textarea,
+    form select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+    
+    form input[type="text"]:focus,
+    form input[type="email"]:focus,
+    form input[type="number"]:focus,
+    form input[type="url"]:focus,
+    form textarea:focus,
+    form select:focus {
+        border-color: #3498db;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    
+    /* Textarea specific */
+    form textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+    
+    /* Help text */
+    .helptext {
+        display: block;
+        font-size: 0.85rem;
+        color: #7f8c8d;
+        margin-top: 0.25rem;
+    }
+    
+    /* Error messages */
+    .errorlist {
+        color: #e74c3c;
+        list-style-type: none;
+        padding: 0;
+        margin: 0.5rem 0 0;
+        font-size: 0.85rem;
+    }
+    
+    /* File upload styling */
+    input[type="file"] {
+        padding: 0.5rem;
+        background-color: #f8f9fa;
+    }
+    
+    /* Button styling */
+    .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+    
+    .btn-secondary {
+        background-color: #95a5a6;
+        color: white;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #7f8c8d;
+    }
+</style>
+<div class="container mt-5">
+    <h2 class="mb-4">Modifier Cours: {{ course.titre }}</h2>
+    <form method="post" enctype="multipart/form-data" action="{% url 'enseignants:edit_course' pk=course.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{% url 'enseignants:formations' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

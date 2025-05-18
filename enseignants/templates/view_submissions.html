@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h4 mb-0">
+                <i class="fas fa-file-upload me-2"></i>
+                Soumissions pour : {{ course.titre }}
+            </h2>
+            <p class="mb-0 mt-2">
+                <i class="fas fa-chalkboard-teacher me-1"></i>
+                Formation : {{ course.formation.titre }}
+            </p>
+        </div>
+        <div class="card-body">
+            {% if submissions %}
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Étudiant</th>
+                                <th>Email</th>
+                                <th>Type de fichier</th>
+                                <th>Soumis le</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for submission in submissions %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{% if submission.student.get_full_name.strip %}{{ submission.student.get_full_name }}{% else %}{{ submission.student.email|default:'Étudiant inconnu' }}{% endif %}</td>
+                                <td>{{ submission.student.email|default:'-' }}</td>
+                                <td>
+                                    {% with filename=submission.file.name|lower %}
+                                        {% if '.pdf' in filename %}
+                                            <span class="badge bg-danger">PDF</span>
+                                        {% elif '.doc' in filename or '.docx' in filename %}
+                                            <span class="badge bg-primary">Word</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Fichier</span>
+                                        {% endif %}
+                                    {% endwith %}
+                                </td>
+                                <td>{{ submission.submitted_at|date:"d/m/Y H:i" }}</td>
+                                <td>
+                                    <a href="{{ submission.file.url }}" 
+                                       class="btn btn-sm btn-outline-primary" 
+                                       target="_blank"
+                                       title="Voir le fichier">
+                                        <i class="fas fa-eye"></i> Voir
+                                    </a>
+                                    <a href="{{ submission.file.url }}" 
+                                       class="btn btn-sm btn-outline-success" 
+                                       download
+                                       title="Télécharger">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Aucune soumission n'a été faite pour ce cours pour le moment.
+                </div>
+            {% endif %}
+        </div>
+        <div class="card-footer text-end">
+            <a href="{% url 'enseignants:formations' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Retour aux formations
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .card-header {
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .card-header h2 {
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+    
+    .card-header p {
+        opacity: 0.9;
+        font-size: 0.95rem;
+    }
+    
+    .card-body {
+        padding: 0;
+    }
+    
+    .table {
+        margin-bottom: 0;
+    }
+    
+    .table thead th {
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        padding: 1.2rem 1.5rem;
+        background-color: #e3f2fd; /* Light blue header */
+        border-bottom: 2px solid #bbdefb;
+        color: #1565c0; /* Darker blue text for contrast */
+    }
+    
+    .table tbody tr {
+        background-color: #ffffff; /* White rows */
+    }
+    
+    .table tbody tr:nth-child(even) {
+        background-color: #f5f9ff; /* Light blue for even rows */
+    }
+    
+    .table td {
+        padding: 1.2rem 1.5rem;
+        vertical-align: middle;
+        border-top: 1px solid #e1f5fe; /* Light blue border */
+        color: #2c3e50; /* Dark text for better readability */
+    }
+    
+    .table tbody tr:hover {
+        background-color: #e1f5fe; /* Slightly darker blue on hover */
+        transition: all 0.2s ease;
+    }
+    
+    .badge {
+        font-size: 0.7rem;
+        padding: 0.4em 0.8em;
+        font-weight: 500;
+        border-radius: 4px;
+    }
+    
+    .btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-outline-primary:hover {
+        background-color: #0d6efd;
+        color: white;
+    }
+    
+    .btn-outline-success:hover {
+        background-color: #198754;
+        color: white;
+    }
+    
+    .alert-info {
+        background-color: #f0f7ff;
+        border-color: #d0e3ff;
+        color: #0a58ca;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin: 1.5rem;
+    }
+    
+    .alert-info i {
+        margin-right: 8px;
+    }
+    
+    .card-footer {
+        background-color: #f8f9fa;
+        padding: 1.25rem 2rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        padding: 0.5rem 1.25rem;
+        font-weight: 500;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #5c636a;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .card-header {
+            padding: 1.25rem 1.5rem;
+        }
+        
+        .card-header h2 {
+            font-size: 1.3rem;
+        }
+        
+        .table th, 
+        .table td {
+            padding: 0.8rem 1rem;
+        }
+    }
+</style>
+{% endblock %}

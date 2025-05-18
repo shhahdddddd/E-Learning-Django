@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<ul>
+    <li><a href="{% url 'admin:auth_user_changelist' %}">User Management</a></li>
+    <li><a href="{% url 'admin:enseignants_formation_changelist' %}">Moderate Formations</a></li>
+    <li><a href="{% url 'admin:enseignants_course_changelist' %}">Moderate Courses</a></li>
+    <li><a href="{% url 'admin:etudiant_purchase_changelist' %}">Finances (Purchases)</a></li>
+</ul>
+<p>These links go to the Django admin for full management. You can add custom dashboards here if you prefer.</p>
+{% endblock %}

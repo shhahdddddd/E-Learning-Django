@@ -1,0 +1,390 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<style>
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --accent-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #34495e;
+}
+
+.careers-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px;
+    overflow: hidden;
+}
+
+.careers-header {
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+}
+
+.careers-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    display: inline-block;
+}
+
+.careers-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    border-radius: 2px;
+}
+
+.careers-subtitle {
+    font-size: 1.25rem;
+    color: var(--dark-color);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.7;
+    opacity: 0.9;
+}
+
+.career-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 2;
+}
+
+.career-filter-btn {
+    padding: 12px 25px;
+    border: 2px solid var(--primary-color);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--primary-color);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.career-filter-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    z-index: -1;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.career-filter-btn:hover,
+.career-filter-btn.active {
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+}
+
+.career-filter-btn:hover::before,
+.career-filter-btn.active::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.career-list {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.career-category {
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.category-title {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.category-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    border-radius: 3px;
+}
+
+.career-item {
+    background: white;
+    padding: 30px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    border-left: 4px solid var(--primary-color);
+}
+
+.career-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(231, 76, 60, 0.1));
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.career-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.career-item:hover::before {
+    opacity: 1;
+}
+
+.career-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.career-description {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.7;
+}
+
+.career-stats {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: #555;
+    background: rgba(52, 152, 219, 0.1);
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    background: rgba(52, 152, 219, 0.2);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.career-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 8px 0;
+}
+
+.career-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.career-link:hover {
+    color: var(--accent-color);
+}
+
+.career-link:hover::after {
+    width: 100%;
+    background: var(--accent-color);
+}
+
+.career-link i {
+    transition: transform 0.3s ease;
+}
+
+.career-link:hover i {
+    transform: translateX(5px);
+}
+
+.floating-element {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(52, 152, 219, 0.1);
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .careers-container {
+        padding: 60px 15px;
+    }
+
+    .careers-title {
+        font-size: 2.2rem;
+    }
+
+    .careers-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .career-filter-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .career-item {
+        padding: 20px;
+    }
+
+    .category-title {
+        font-size: 1.6rem;
+    }
+
+    .career-name {
+        font-size: 1.3rem;
+    }
+}
+</style>
+
+<div class="careers-container">
+    <div class="careers-header">
+        <h1 class="careers-title">Les Carrières</h1>
+        <p class="careers-subtitle">
+            Commencez, changez ou faites progresser votre carrière avec nos programmes de formation en collaboration 
+            avec les meilleures universités et entreprises. Trouvez la voie qui correspond à vos ambitions.
+        </p>
+    </div>
+
+    <div class="career-filters">
+        <button class="career-filter-btn active" data-filter="all">Tous les domaines</button>
+        <button class="career-filter-btn" data-filter="informatique">Développement de Système Informatique</button>
+        <button class="career-filter-btn" data-filter="business">Business</button>
+        <button class="career-filter-btn" data-filter="cybersecurity">CyberSecurity</button>
+        <button class="career-filter-btn" data-filter="data-analysis">Data Analyst</button>
+        <button class="career-filter-btn" data-filter="marketing">Marketing</button>
+    </div>
+
+    <!-- Decorative floating elements -->
+    <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 5%;"></div>
+    <div class="floating-element" style="width: 150px; height: 150px; bottom: 15%; right: 5%;"></div>
+</div>
+
+<!-- GSAP CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<script>
+    // Floating bubbles movement (looping)
+    gsap.to(".floating-element", {
+        y: 30,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        duration: 4
+    });
+
+    // Header animations on load
+    gsap.from(".careers-title", {
+        opacity: 0,
+        y: -50,
+        duration: 1.2,
+        ease: "power3.out"
+    });
+
+    gsap.from(".careers-subtitle", {
+        opacity: 0,
+        y: 30,
+        delay: 0.3,
+        duration: 1.2,
+        ease: "power2.out"
+    });
+
+    // Buttons animation
+    gsap.from(".career-filter-btn", {
+        opacity: 0,
+        y: 20,
+        stagger: 0.1,
+        delay: 0.6,
+        duration: 0.8,
+        ease: "power2.out"
+    });
+
+    // ScrollTrigger: animate categories and items on scroll
+    gsap.utils.toArray(".career-category").forEach(section => {
+        gsap.from(section, {
+            scrollTrigger: {
+                trigger: section,
+                start: "top 80%",
+                toggleActions: "play none none none"
+            },
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: "power2.out"
+        });
+    });
+
+    gsap.utils.toArray(".career-item").forEach(item => {
+        gsap.from(item, {
+            scrollTrigger: {
+                trigger: item,
+                start: "top 90%",
+                toggleActions: "play none none none"
+            },
+            opacity: 0,
+            y: 40,
+            duration: 0.8,
+            ease: "power2.out"
+        });
+    });
+</script>
+{% endblock %}

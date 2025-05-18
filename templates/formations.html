@@ -1,0 +1,615 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<style>
+body {
+    background: linear-gradient(120deg, #f0f4f9 0%, #e0eafc 100%) !important;
+}
+
+.container {
+    max-width: 900px;
+}
+
+.formation-card .card {
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 24px rgba(80, 120, 200, 0.11), 0 1.5px 6px rgba(44,62,80,0.07);
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(2px);
+    border: none;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: box-shadow 0.3s, transform 0.2s;
+    margin-bottom: 2.5rem;
+}
+
+.formation-card .card:hover {
+    box-shadow: 0 8px 32px rgba(52,152,219,0.19), 0 4px 12px rgba(44,62,80,0.11);
+    transform: translateY(-6px) scale(1.015);
+}
+
+.formation-card .card-header {
+    border-radius: 1.5rem 1.5rem 0 0;
+    background: linear-gradient(90deg, #3498db 70%, #2563eb 100%) !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(52,152,219,0.09);
+    padding: 1.2rem 1.5rem;
+    font-size: 1.15rem;
+}
+
+h2.mb-4::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    width: 70px;
+    height: 4px;
+    background: linear-gradient(90deg, #3498db, #2980b9);
+    border-radius: 2px;
+}
+
+/* Formation cards */
+.formation-card .card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    background: white;
+}
+
+.formation-card .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.formation-card .card-header {
+    background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.formation-card .card-body {
+    padding: 1.5rem;
+}
+
+/* Course sections */
+.course-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-left: 4px solid #3498db;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.course-section:hover {
+    background: #f1f8ff;
+    transform: translateX(5px);
+}
+
+/* Buttons */
+.btn {
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin: 0.25rem;
+}
+
+.btn-primary, .btn-success, .btn-info {
+    background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
+    border: none;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+}
+
+.btn-primary:hover, .btn-success:hover, .btn-info:hover {
+    background: linear-gradient(90deg, #2980b9 0%, #2471a3 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(41, 128, 185, 0.3);
+}
+
+.btn-outline-secondary {
+    border: 2px solid #3498db;
+    color: #3498db;
+    background: transparent;
+}
+
+.btn-outline-secondary:hover {
+    background: #3498db;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Badges */
+.badge {
+    padding: 0.5em 0.8em;
+    font-weight: 500;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+.bg-success {
+    background: linear-gradient(90deg, #2ecc71 0%, #27ae60 100%);
+}
+
+.bg-warning {
+    background: linear-gradient(90deg, #f39c12 0%, #e67e22 100%);
+    color: white;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.alert-info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+}
+
+.alert-warning {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .formation-card .card-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .btn-group {
+        margin-top: 1rem;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .course-section {
+        padding: 1rem;
+    }
+    
+    h2.mb-4 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Search and filter section */
+.search-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.search-input {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 500px;
+}
+
+.search-input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    outline: none;
+}
+.formation-card .card-text {
+    color: #555;
+    font-size: 1.05rem;
+}
+.formation-card .card-header.bg-secondary {
+    background: linear-gradient(90deg, #6366f1 60%, #a7c7f9 100%) !important;
+}
+.formation-card .card-header.bg-info {
+    background: linear-gradient(90deg, #38b6ff 60%, #3498db 100%) !important;
+}
+.formation-card .card-header.bg-warning {
+    background: linear-gradient(90deg, #f7ca18 60%, #f39c12 100%) !important;
+}
+.formation-card .card-header.bg-success {
+    background: linear-gradient(90deg, #27ae60 60%, #2ecc40 100%) !important;
+}
+.formation-card .card-header.bg-danger {
+    background: linear-gradient(90deg, #e74c3c 60%, #c0392b 100%) !important;
+}
+.formation-card .btn-sm {
+    padding: 0.25em 0.7em;
+    font-size: 0.93em;
+}
+@media (max-width: 600px) {
+    .formation-card .card {
+        max-width: 100%;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+    }
+    .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+</style>
+
+{% block title %}Formations | E-Learn{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Nos Formations</h2>
+    {% if user.is_teacher %}
+    <div class="mb-4">
+        <a href="{% url 'enseignants:publier' %}" class="btn btn-success">
+            <i class="fas fa-plus me-2"></i>Créer une Nouvelle Formation
+        </a>
+    </div>
+    {% endif %}
+
+    <div id="course-list">
+        {% for formation in formations %}
+        <!-- Added data-keywords attribute for filtering -->
+        <div class="row formation-card" data-keywords="{{ formation.titre|lower }} {{ formation.description|lower }}">
+            <div class="col-md-12 mb-4">
+                <div class="card formation-card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="mb-0">{{ formation.titre }}</h4>
+                                <small class="d-block mt-1">
+                                    <i class="fas fa-chalkboard-teacher me-1"></i>
+                                    {{ formation.teacher.get_full_name|default:formation.teacher.email }}
+                                    {% if formation.teacher.cv %}
+                                        <a href="{{ formation.teacher.cv.url }}" 
+                                           class="text-white ms-2" 
+                                           title="Voir le CV du professeur"
+                                           target="_blank">
+                                            <i class="fas fa-file-pdf"></i> Voir CV
+                                        </a>
+                                    {% endif %}
+                                </small>
+                            </div>
+                            {% if user.is_teacher and user == formation.teacher or user.is_superuser %}
+                            <div class="btn-group">
+                                <a href="{% url 'enseignants:edit_formation' pk=formation.pk %}" class="btn btn-sm btn-warning" title="Modifier la formation">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form method="post" action="{% url 'enseignants:delete_formation' pk=formation.pk %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette formation ?');" title="Supprimer la formation">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                                <a href="{% url 'enseignants:create_course' formation_pk=formation.pk %}" class="btn btn-sm btn-info" title="Ajouter un cours">
+                                    <i class="fas fa-plus"></i> Cours
+                                </a>
+                                <a href="{% url 'enseignants:view_enrolled_students' formation_pk=formation.pk %}" class="btn btn-sm btn-light" title="Voir les étudiants inscrits">
+                                    <i class="fas fa-users"></i> Étudiants
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="card-text">{{ formation.description }}</p>
+
+                        <!-- Only show course content if user is teacher or has purchased the formation -->
+                        {% if not user.is_student or formation.id in purchased_formations %}
+                            <!-- List of Courses -->
+                            {% for course in formation.courses.all %}
+                            <div class="course-section mb-4 p-3 border rounded">
+                                <h5>{{ course.titre }}</h5>
+                                
+                                <div class="row mt-3">
+                                    <!-- TD Section -->
+                                    {% if course.td_file %}
+                                    <div class="col-md-6">
+                                        <div class="card mb-3">
+                                            <div class="card-header bg-info text-white">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>TD</span>
+                                                    {% if user.is_teacher and user == formation.teacher or user.is_superuser %}
+                                                    <a href="{% url 'enseignants:edit_course' pk=course.pk %}" class="btn btn-sm btn-light">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <a href="{{ course.td_file.url }}" class="btn btn-primary mb-2" download>
+                                                    <i class="fas fa-download"></i> Télécharger TD
+                                                </a>
+                                                <p>Exercices pratiques associés au cours.</p>
+
+                                                <!-- Student Submission Area -->
+                                                {% if user.is_student and formation in purchased_formations %}
+                                                <hr>
+                                                <h6>Espace de Dépôt</h6>
+                                                <form method="post" enctype="multipart/form-data" action="{% url 'enseignants:submit_assignment' pk=course.pk %}">
+                                                    {% csrf_token %}
+                                                    <div class="mb-2">
+                                                        <label class="form-label">Déposer votre travail</label>
+                                                        <input type="file" name="file" class="form-control" required>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-sm btn-success">
+                                                        <i class="fas fa-upload"></i> Envoyer
+                                                    </button>
+                                                </form>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- TP Section -->
+                                    {% if course.tp_file %}
+                                    <div class="col-md-6">
+                                        <div class="card mb-3">
+                                            <div class="card-header bg-secondary text-white">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>TP</span>
+                                                    {% if user.is_teacher and user == formation.teacher or user.is_superuser %}
+                                                    <a href="{% url 'enseignants:edit_course' pk=course.pk %}" class="btn btn-sm btn-light">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <a href="{{ course.tp_file.url }}" class="btn btn-primary mb-2" download>
+                                                    <i class="fas fa-download"></i> Télécharger TP
+                                                </a>
+                                                <p>Projet pratique associé au cours.</p>
+
+                                                <!-- Correction -->
+                                                {% if course.correction %}
+                                                <div class="mb-3">
+                                                    <h6>Correction</h6>
+                                                    <a href="{{ course.correction.url }}" class="btn btn-success" download>
+                                                        <i class="fas fa-download"></i> Télécharger Correction
+                                                    </a>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Teacher View of Submissions -->
+                                {% if user.is_teacher and user == formation.teacher or user.is_superuser %}
+                                <div class="mt-3">
+                                    <a href="{% url 'enseignants:view_submissions' course_pk=course.id %}" class="btn btn-info btn-sm">
+                                        <i class="fas fa-eye me-1"></i> Voir les soumissions
+                                    </a>
+                                    <h6>Soumissions des étudiants</h6>
+                                    {% if course.submissions_for_teacher %}
+                                    <ul class="list-group">
+                                        {% for submission in course.submissions_for_teacher %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <span>{% if submission.student.get_full_name %}{{ submission.student.get_full_name }}{% else %}{{ submission.student.username }}{% endif %}</span>
+                                                <small class="text-muted ms-2">{{ submission.submitted_at|date:"d/m/Y H:i" }}</small>
+                                            </div>
+                                            <div>
+                                                <a href="{{ submission.file.url }}" class="btn btn-sm btn-primary" download>
+                                                    <i class="fas fa-download"></i>
+                                                </a>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% else %}
+                                    <p class="text-muted">Aucune soumission pour ce cours.</p>
+                                    {% endif %}
+
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% empty %}
+                            <div class="alert alert-info">
+                                Cette formation ne contient aucun cours pour le moment.
+                            </div>
+                            {% endfor %}
+                        {% elif user.is_student %}
+                            <div class="alert alert-warning">
+                                Vous devez acheter cette formation pour accéder à son contenu.
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-footer">
+                        {% if not user.is_teacher %}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 text-primary">{{ formation.prix }} DT</span>
+                            {% if user.is_authenticated %}
+                                {% if formation.id in purchased_formations %}
+                                <div>
+                                    <span class="badge bg-success me-2">Déjà achetée</span>
+                                    <a href="{% url 'etudiant:formation_detail' pk=formation.pk %}" class="btn btn-info">
+                                        <i class="fas fa-info-circle me-1"></i> Détails
+                                    </a>
+                                </div>
+                                {% else %}
+                                <div>
+                                    <a href="{% url 'etudiant:formation_detail' pk=formation.pk %}" class="btn btn-outline-secondary me-2">
+                                        <i class="fas fa-eye me-1"></i> Voir détails
+                                    </a>
+                                    <a href="{% url 'etudiant:buy_formation' pk=formation.pk %}" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart me-1"></i> Acheter
+                                    </a>
+                                </div>
+                                {% endif %}
+                            {% else %}
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <i class="fas fa-sign-in-alt me-1"></i> Se connecter
+                            </button>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="alert alert-info">
+            Aucune formation disponible pour le moment.
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Added No Results Message -->
+    <div id="no-results" class="text-center mt-4" style="display: none;">
+        <p>Aucune formation trouvée pour votre recherche.</p>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Connexion Requise</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Vous devez être connecté pour acheter une formation.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'login' %}" class="btn btn-primary">Se connecter</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GSAP Animations and Filtering -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize GSAP animations
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Animate page title
+    gsap.from('h2.mb-4', {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out'
+    });
+    
+    // Animate search bar
+    gsap.from('#search-input', {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.2,
+        ease: 'back.out(1.4)'
+    });
+    
+    // Animate formation cards with stagger
+    gsap.utils.toArray('.formation-card').forEach((card, i) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 90%',
+                toggleActions: 'play none none none'
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.6,
+            delay: i * 0.1,
+            ease: 'back.out(1.4)'
+        });
+        
+        // Add hover effect to cards
+        const cardElement = card.querySelector('.card');
+        cardElement.addEventListener('mouseenter', () => {
+            gsap.to(cardElement, {
+                y: -5,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+        
+        cardElement.addEventListener('mouseleave', () => {
+            gsap.to(cardElement, {
+                y: 0,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+    });
+    
+    // Add animation to buttons
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+            gsap.to(btn, {
+                scale: 1.05,
+                duration: 0.2,
+                ease: 'power2.out'
+            });
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+            gsap.to(btn, {
+                scale: 1,
+                duration: 0.2,
+                ease: 'power2.out'
+            });
+        });
+    });
+    
+    // Search functionality
+    const searchInput = document.getElementById('search-input');
+    const formationCards = document.querySelectorAll('.formation-card');
+    const noResults = document.getElementById('no-results');
+
+    if (searchInput && formationCards.length > 0) {
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim().toLowerCase();
+            let hasResults = false;
+
+            formationCards.forEach(card => {
+                const keywords = card.getAttribute('data-keywords').toLowerCase();
+                if (query === '' || keywords.includes(query)) {
+                    card.style.display = 'block';
+                    hasResults = true;
+                    // Animate card reappearance
+                    gsap.fromTo(card, 
+                        { opacity: 0, y: 20 },
+                        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }
+                    );
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            noResults.style.display = hasResults ? 'none' : 'block';
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title">{{ formation.titre }}</h2>
+            <p class="card-text">{{ formation.description|safe }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="h5 text-primary mb-0">Prix: {{ formation.prix }} TND</p>
+                    <p class="text-muted mb-0">Enseignant: {{ formation.teacher.get_full_name|default:formation.teacher.email }}</p>
+                </div>
+                {% if not is_enrolled %}
+                    <a href="{% url 'etudiant:buy_formation' pk=formation.pk %}" class="btn btn-primary">
+                        <i class="fas fa-shopping-cart me-2"></i>Acheter maintenant
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    {% if is_enrolled %}
+        {% if formation.fichier %}
+            <a href="{{ formation.fichier.url }}" class="btn btn-primary">Télécharger le fichier</a>
+        {% endif %}
+        {% if formation.correction %}
+            <a href="{{ formation.correction.url }}" class="btn btn-secondary">Télécharger la correction</a>
+        {% endif %}
+
+        <!-- List of Courses (TD/TP) for enrolled users -->
+        <div class="mt-4">
+            <h4>Cours de cette formation</h4>
+            {% if has_courses %}
+                {% for course in formation.courses.all %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ course.titre }}</h5>
+                            <div class="row">
+                                {% if course.td_file %}
+                                <div class="col-md-4">
+                                    <h6>TD</h6>
+                                    <a href="{{ course.td_file.url }}" class="btn btn-sm btn-primary" download>
+                                        <i class="fas fa-download"></i> Télécharger TD
+                                    </a>
+                                </div>
+                                {% endif %}
+                                {% if course.tp_file %}
+                                <div class="col-md-4">
+                                    <h6>TP</h6>
+                                    <a href="{{ course.tp_file.url }}" class="btn btn-sm btn-primary" download>
+                                        <i class="fas fa-download"></i> Télécharger TP
+                                    </a>
+                                </div>
+                                {% endif %}
+                                {% if course.correction %}
+                                <div class="col-md-4">
+                                    <h6>Correction</h6>
+                                    <a href="{{ course.correction.url }}" class="btn btn-sm btn-success" download>
+                                        <i class="fas fa-download"></i> Télécharger Correction
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Submission form for this course -->
+                        {% if course.td_file or course.tp_file %}
+                            {% if course.id in submitted_course_ids %}
+                                <div class="alert alert-info mt-2">Vous avez déjà soumis un devoir pour ce cours.</div>
+                            {% else %}
+                                <form method="post" enctype="multipart/form-data" action="{% url 'etudiant:submit_course_assignment' course_pk=course.pk %}">
+                                    {% csrf_token %}
+                                    {{ submission_form.as_p }}
+                                    {% if submission_form.errors %}
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                {% for field, errors in submission_form.errors.items %}
+                                                    {% for error in errors %}
+                                                        <li>{{ field }}: {{ error }}</li>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                    <button type="submit" class="btn btn-success">Soumettre pour ce cours</button>
+                                </form>
+                            {% endif %}
+                        {% else %}
+                            <div class="alert alert-warning mt-2">Aucun TD ou TP disponible pour ce cours, vous ne pouvez pas soumettre de devoir.</div>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <div class="alert alert-info">Aucun cours disponible pour cette formation. Vous ne pouvez pas soumettre de devoir tant qu'aucun cours n'a été publié.</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            Vous devez acheter cette formation pour accéder aux ressources.
+        </div>
+        <a href="{% url 'etudiant:buy_formation' pk=formation.pk %}" class="btn btn-primary">Acheter</a>
+    {% endif %}
+</div>
+{% endblock %}

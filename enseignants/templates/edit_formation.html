@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Modifier Formation</h2>
+    {% if messages %}
+    <div class="mb-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label class="form-label">Titre</label>
+            {{ form.titre }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            {{ form.description }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Prix (DT)</label>
+            {{ form.prix }}
+        </div>
+        
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'enseignants:formations' %}" class="btn btn-secondary me-md-2">Annuler</a>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+    </form>
+    
+    <hr>
+    
+    <h3 class="mb-3">Cours dans cette formation</h3>
+    
+    {% for course in formation.courses.all %}
+    <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between">
+            <h5>{{ course.titre }}</h5>
+            <div>
+                <a href="{% url 'enseignants:edit_course' pk=course.pk %}" class="btn btn-sm btn-warning">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <form method="post" action="{% url 'enseignants:delete_course' pk=course.pk %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Supprimer ce cours?');">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% if course.td_file %}
+                <div class="col-md-4">
+                    <h6>TD</h6>
+                    <a href="{{ course.td_file.url }}" class="btn btn-sm btn-primary" download>
+                        <i class="fas fa-download"></i> Télécharger
+                    </a>
+                </div>
+                {% endif %}
+                
+                {% if course.tp_file %}
+                <div class="col-md-4">
+                    <h6>TP</h6>
+                    <a href="{{ course.tp_file.url }}" class="btn btn-sm btn-primary" download>
+                        <i class="fas fa-download"></i> Télécharger
+                    </a>
+                </div>
+                {% endif %}
+                
+                {% if course.correction %}
+                <div class="col-md-4">
+                    <h6>Correction</h6>
+                    <a href="{{ course.correction.url }}" class="btn btn-sm btn-success" download>
+                        <i class="fas fa-download"></i> Télécharger
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+    <a href="{% url 'enseignants:create_course' formation_pk=formation.pk %}" class="btn btn-success">
+        <i class="fas fa-plus"></i> Ajouter un Cours
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,495 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Contact | E-Learn Platform{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(120deg, #f0f4f9 0%, #e0eafc 100%) !important;
+    }
+    .hero-section {
+        background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12);
+        margin-bottom: 2rem;
+    }
+    .card {
+        background: rgba(255,255,255,0.85);
+        border-radius: 1.25rem;
+        box-shadow: 0 4px 24px rgba(80, 120, 200, 0.10);
+        border: none;
+    }
+    .card-title {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+    .input-group-text {
+        background: #eaf1fb;
+        border: none;
+        color: #3498db;
+    }
+    .form-control, .form-select {
+        border-radius: 0.75rem;
+        border: 1px solid #dbeafe;
+        background: #fafdff;
+        transition: box-shadow 0.2s;
+    }
+    .form-control:focus, .form-select:focus {
+        box-shadow: 0 0 0 2px #a7c7f9;
+        border-color: #3498db;
+    }
+    .btn-primary, .btn-outline-primary {
+        border-radius: 2rem;
+        font-weight: 600;
+        padding: 0.6rem 1.5rem;
+        box-shadow: 0 2px 8px rgba(80, 120, 200, 0.10);
+        transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover, .btn-outline-primary:hover {
+        background: #2563eb !important;
+        color: #fff !important;
+        box-shadow: 0 4px 16px rgba(52, 152, 219, 0.13);
+    }
+    .accordion-item {
+        border-radius: 1rem !important;
+        overflow: hidden;
+        border: none;
+    }
+    .accordion-button {
+        border-radius: 1rem !important;
+        background: #fafdff;
+        font-weight: 600;
+        color: #2563eb;
+        transition: background 0.2s, color 0.2s;
+    }
+    .accordion-button:not(.collapsed) {
+        background: #e0eafc;
+        color: #1a2526;
+        font-weight: 700;
+    }
+    .accordion-body {
+        background: #fafdff;
+    }
+    .bg-primary {
+        background: linear-gradient(120deg, #3498db 60%, #2563eb 100%) !important;
+    }
+    .rounded-circle {
+        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.10);
+    }
+    .alert {
+        border-radius: 1rem;
+    }
+    /* Social icons hover */
+    .btn-outline-primary:hover i {
+        color: #fff !important;
+        transform: scale(1.1);
+        transition: transform 0.2s;
+    }
+    /* Map Card Glass Effect */
+    .ratio iframe {
+        border-radius: 1.25rem;
+        filter: drop-shadow(0 4px 24px rgba(80, 120, 200, 0.10));
+    }
+    @media (max-width: 991px) {
+        .hero-section, .card, .accordion-item, .ratio iframe {
+            border-radius: 1rem !important;
+        }
+    }
+    .hero-section.contact-hero {
+        position: relative;
+        background: linear-gradient(120deg, #232946 60%, #3a506b 100%), url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 85px 0 65px 0;
+        margin-bottom: 0;
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
+        overflow: hidden;
+    }
+    .hero-section.contact-hero::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(35, 41, 70, 0.78);
+        z-index: 1;
+        border-radius: 1.5rem;
+    }
+    .hero-section.contact-hero .container {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+    }
+    .hero-section.contact-hero h1 {
+        color: #fff;
+        font-size: 2.7rem;
+        font-weight: 800;
+        text-shadow: 0 4px 24px rgba(0,0,0,0.14);
+        letter-spacing: 1.5px;
+        margin-bottom: 1.2rem;
+    }
+    .hero-section.contact-hero p.lead {
+        color: #d6e4ff;
+        font-size: 1.25rem;
+        max-width: 600px;
+        margin: 0 auto 1rem auto;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    @media (max-width: 767px) {
+        .hero-section.contact-hero {
+            padding: 48px 0 36px 0;
+            border-radius: 1rem;
+        }
+        .hero-section.contact-hero h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<!-- Contact Hero Section -->
+<div class="hero-section contact-hero">
+    <div class="container">
+        <h1 class="mb-3 animate__animated animate__fadeIn">Contactez-Nous</h1>
+        <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">
+            Une question ? Un besoin spécifique ? Notre équipe est à votre écoute.
+        </p>
+    </div>
+</div>
+
+<!-- Contact Main Content -->
+<div class="container py-5" style="max-width: 1100px;">
+    <div class="row">
+        <!-- Contact Information -->
+        <div class="col-lg-5 mb-4 mb-lg-0">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <h2 class="card-title mb-4 text-primary">Nos Coordonnées</h2>
+                    
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="flex-shrink-0 bg-primary rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="fas fa-map-marker-alt text-white"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold">Adresse</h5>
+                            <p class="text-muted mb-0">123 Avenue Habib Bourguiba, Tunis 1001, Tunisie</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="flex-shrink-0 bg-primary rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="fas fa-phone-alt text-white"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold">Téléphone</h5>
+                            <p class="text-muted mb-0">+216 70 000 000</p>
+                            <p class="text-muted mb-0">+216 71 000 000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="flex-shrink-0 bg-primary rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="fas fa-envelope text-white"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold">Email</h5>
+                            <p class="text-muted mb-0">contact@e-learn.tn</p>
+                            <p class="text-muted mb-0">support@e-learn.tn</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-start">
+                        <div class="flex-shrink-0 bg-primary rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="fas fa-clock text-white"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold">Heures d'ouverture</h5>
+                            <p class="text-muted mb-0">Lundi - Vendredi: 8h00 - 18h00</p>
+                            <p class="text-muted mb-0">Samedi: 9h00 - 13h00</p>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <h5 class="mb-3">Suivez-nous</h5>
+                    <div class="d-flex gap-2">
+                        <a href="https://facebook.com" target="_blank" class="btn btn-outline-primary" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" class="btn btn-outline-primary" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" class="btn btn-outline-primary" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" class="btn btn-outline-primary" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://youtube.com" target="_blank" class="btn btn-outline-primary" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact Form -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title mb-4 text-primary">Envoyez-nous un message</h2>
+                    
+                    <form id="contactForm" action="{% url 'contact' %}" method="post">
+                        {% csrf_token %}
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Nom complet *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Votre nom" required>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Votre email" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Téléphone</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Votre numéro de téléphone">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Sujet *</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                                <select class="form-select" id="subject" name="subject" required>
+                                    <option value="" selected disabled>Choisissez un sujet</option>
+                                    <option value="Renseignements généraux">Renseignements généraux</option>
+                                    <option value="Inscription aux cours">Inscription aux cours</option>
+                                    <option value="Support technique">Support technique</option>
+                                    <option value="Partenariat">Partenariat</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="message" class="form-label">Message *</label>
+                            <div class="input-group">
+                                <span class="input-group-text align-self-start"><i class="fas fa-comment-alt"></i></span>
+                                <textarea class="form-control" id="message" name="message" rows="5" placeholder="Votre message" required></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="consent" name="consent" required>
+                            <label class="form-check-label" for="consent">
+                                J'accepte que mes données soient traitées conformément à la politique de confidentialité d'E-Learn Platform *
+                            </label>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>Envoyer le message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FAQ Section -->
+    <div class="mt-5 pt-3">
+        <h2 class="text-center mb-4">Questions fréquentes</h2>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="accordion" id="faqAccordion">
+                    <!-- FAQ Item 1 -->
+                    <div class="accordion-item border mb-3 shadow-sm">
+                        <h3 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Comment puis-je m'inscrire aux cours?
+                            </button>
+                        </h3>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Pour vous inscrire à un cours, créez d'abord un compte en cliquant sur "Inscription" dans le menu principal. Une fois connecté, parcourez notre catalogue de formations et cliquez sur "S'inscrire" sur la page du cours qui vous intéresse. Vous serez guidé à travers le processus de paiement si le cours est payant.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 2 -->
+                    <div class="accordion-item border mb-3 shadow-sm">
+                        <h3 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Comment obtenir un certificat après avoir terminé un cours?
+                            </button>
+                        </h3>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Une fois que vous avez terminé toutes les exigences du cours (vidéos, lectures, quiz et projets), un certificat sera automatiquement disponible pour téléchargement dans votre espace personnel sous l'onglet "Mes certificats". Vous pouvez le télécharger au format PDF et l'imprimer.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 3 -->
+                    <div class="accordion-item border mb-3 shadow-sm">
+                        <h3 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Quelle est la politique de remboursement?
+                            </button>
+                        </h3>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Nous offrons un remboursement complet dans les 7 jours suivant l'achat si vous n'êtes pas satisfait du cours. Après cette période, aucun remboursement ne sera accordé. Pour demander un remboursement, veuillez contacter notre service client via le formulaire de contact ou par email à support@e-learn.tn.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 4 -->
+                    <div class="accordion-item border mb-3 shadow-sm">
+                        <h3 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Comment puis-je devenir formateur sur E-Learn Platform?
+                            </button>
+                        </h3>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Pour devenir formateur, vous devez soumettre une candidature détaillant votre expertise et le cours que vous souhaitez proposer. Cliquez sur "Devenir formateur" dans le pied de page de notre site pour accéder au formulaire de candidature. Notre équipe examinera votre demande et vous contactera pour les prochaines étapes.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 5 -->
+                    <div class="accordion-item border mb-3 shadow-sm">
+                        <h3 class="accordion-header" id="headingFive">
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                Les cours sont-ils accessibles à vie?
+                            </button>
+                        </h3>
+                        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Oui, une fois que vous avez acheté un cours, vous y avez accès à vie. Vous pouvez revisiter le contenu du cours autant de fois que vous le souhaitez, même après l'avoir terminé. Cela vous permet de rafraîchir vos connaissances quand vous en avez besoin.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Map Section -->
+    <div class="mt-5 pt-3">
+        <h2 class="text-center mb-4">Notre emplacement</h2>
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+                <div class="ratio ratio-21x9">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12761.268036209276!2d10.177889887158205!3d36.79786510000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd337f5e7ef543%3A0xd671924e714a0275!2sTunis!5e0!3m2!1sfr!2stn!4v1620562600000!5m2!1sfr!2stn" allowfullscreen="" loading="lazy" class="border-0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Animation Script -->
+<script>
+    // Form validation
+    (function() {
+        'use strict';
+        
+        // Fetch all forms to which we want to apply validation
+        var forms = document.querySelectorAll('#contactForm');
+        
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+    
+    // GSAP animations
+    document.addEventListener('DOMContentLoaded', function() {
+        // Contact Information Card Animation
+        gsap.from(".card:first-child", {
+            opacity: 0,
+            x: -50,
+            duration: 1,
+            ease: "power3.out",
+            delay: 0.2
+        });
+        
+        // Contact Icons Animation
+        gsap.from(".flex-shrink-0", {
+            scale: 0,
+            stagger: 0.1,
+            duration: 0.5,
+            ease: "back.out(1.7)",
+            delay: 0.5
+        });
+        
+        // Form Animation
+        gsap.from(".col-lg-7 .card", {
+            opacity: 0,
+            x: 50,
+            duration: 1,
+            ease: "power3.out",
+            delay: 0.4
+        });
+        
+        // Form Fields Animation
+        gsap.from(".form-control, .form-select, .form-check, .btn-primary", {
+            y: 20,
+            opacity: 0,
+            stagger: 0.1,
+            duration: 0.5,
+            ease: "power2.out",
+            delay: 0.8
+        });
+        
+        // FAQ Animation
+        gsap.from(".accordion-item", {
+            opacity: 0,
+            y: 30,
+            stagger: 0.1,
+            duration: 0.6,
+            ease: "power2.out",
+            delay: 1
+        });
+        
+        // Map Animation
+        gsap.from(".ratio", {
+            opacity: 0,
+            scale: 0.9,
+            duration: 1,
+            ease: "power2.out",
+            delay: 1.2
+        });
+    });
+</script>
+{% endblock %}

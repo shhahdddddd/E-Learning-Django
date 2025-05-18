@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Étudiants inscrits</h2>
+        <a href="{% url 'enseignants:formations' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Retour aux formations
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="h5 mb-0">{{ formation.titre }}</h3>
+            <small class="text-white-50">{{ total_students }} étudiant{{ total_students|pluralize }} inscrit{{ total_students|pluralize:"s" }}</small>
+        </div>
+        <div class="card-body">
+            {% if students %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom complet</th>
+                                <th>Email</th>
+                                <th>Date d'inscription</th>
+                                <th>Statut de paiement</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student_data in students %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ student_data.student.get_full_name|default:student_data.student.email }}</td>
+                                    <td>{{ student_data.student.email }}</td>
+                                    <td>{{ student_data.purchased_at|date:"d/m/Y H:i" }}</td>
+                                    <td>
+                                        {% if student_data.is_paid %}
+                                            <span class="badge bg-success">Payé</span>
+                                        {% else %}
+                                            <span class="badge bg-warning text-dark">En attente</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info mb-0">
+                    Aucun étudiant n'est encore inscrit à cette formation.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
